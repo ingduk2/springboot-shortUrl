@@ -6,28 +6,24 @@ import lombok.experimental.UtilityClass;
 public class Base62Util {
     private static final char[] BASE62 = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
 
-    public static String encode(int id) {
-        StringBuilder shortURL = new StringBuilder();
-        while (id > 0) {
-            shortURL.append(BASE62[id % 62]);
-            id /= 62;
-        }
-        return shortURL.reverse().toString();
+    public static String encode(int value) {
+        final StringBuilder sb = new StringBuilder();
+        do {
+            int i = value % 62;
+            sb.append(BASE62[i]);
+            value /= 62;
+        } while (value > 0);
+        return sb.toString();
     }
 
-    public static int decode(String str) {
-        int id = 0;
-
-        for (int i = 0; i < str.length(); i++) {
-            char ch = str.charAt(i);
-            if ('a' <= ch && ch <= 'z') {
-                id = id * 62 + ch - 'a';
-            } else if ('A' <= ch && ch <= 'Z') {
-                id = id * 62 + ch - 'A' + 36;
-            } else if ('0' <= ch && ch <= '9') {
-                id = id * 62 + ch - '0' + 26;
-            }
+    public static int decode(String value) {
+        int result=0;
+        int power=1;
+        for (int i = 0; i < value.length(); i++) {
+            int digit = new String(BASE62).indexOf(value.charAt(i));
+            result += digit * power;
+            power *= 62;
         }
-        return id;
+        return result;
     }
 }

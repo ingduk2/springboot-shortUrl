@@ -1,3 +1,13 @@
+server:
+  protocol : http
+  domain: localhost
+  port: 8080
+url:
+  valid:
+    connectTimeout: 5000
+    readTimeout: 5000
+
+
 spring:
   mvc:
     throw-exception-if-no-handler-found: true

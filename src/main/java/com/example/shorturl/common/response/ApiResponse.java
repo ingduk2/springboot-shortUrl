@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ApiResponse<T>{
+public class ApiResponse<T> {
 
     private static final String EMPTY_STRING = "";
 
@@ -26,11 +26,19 @@ public class ApiResponse<T>{
     }
 
     public static <T> ApiResponse<T> fail(ErrorCode errorCode) {
-        return ApiResponse.<T>
-                        builder()
+        return ApiResponse.<T>builder()
                 .success(false)
                 .errorCode(errorCode.name())
                 .message(errorCode.getErrorMessage())
+                .data(null)
+                .build();
+    }
+
+    public static <T> ApiResponse<T> fail(ErrorCode errorCode, String message) {
+        return ApiResponse.<T>builder()
+                .success(false)
+                .errorCode(errorCode.name())
+                .message(message)
                 .data(null)
                 .build();
     }
